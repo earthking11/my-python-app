@@ -2,37 +2,35 @@ name: 打包 Windows 发票工具
 
 on:
   push:
-    branches: [ "main" ] # 只要你提交代码到 main 分支，就会自动触发
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: windows-latest # 使用云端 Windows 2022 环境
+    runs-on: windows-latest
 
     steps:
-    - name: 1. 检出仓库代码
+    - name: 1. 检出代码
       uses: actions/checkout@v4
 
-    - name: 2. 安装 Python 3.10
+    - name: 2. 设置 Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: 3. 安装依赖库
+    - name: 3. 安装必要依赖
       run: |
         python -m pip install --upgrade pip
-        # 你的程序依赖这两个关键包
+        # 确保安装了代码中用到的所有第三方库
         pip install pyinstaller pdfplumber
 
     - name: 4. 执行 PyInstaller 打包
       run: |
-        # 参数解释：
-        # -F: 打包成单个 .exe 文件
-        # -w: 窗口模式运行（因为你是 tkinter 程序，不需要弹出黑色命令行窗口）
-        # --name: 指定生成的 exe 名字
-        pyinstaller -F -w --name "发票自动重命名工具" "通讯费发票重命名.py"
+        # 注意：这里去掉了 -w 参数，方便你观察是否有启动报错
+        # 如果运行正常，下次可以加回 -w 隐藏黑窗口
+        pyinstaller -F --name "发票自动重命名工具_调试版" "通讯费发票重命名.py"
 
-    - name: 5. 上传生成的 EXE 到 GitHub
+    - name: 5. 上传成品
       uses: actions/upload-artifact@v4
       with:
-        name: Windows-Invoice-Tool-EXE # 这是你在网页上看到的下载包名字
-        path: dist/*.exe # 自动抓取 dist 文件夹下打包好的 exe
+        name: Windows-Invoice-Tool-EXE
+        path: dist/*.exe
