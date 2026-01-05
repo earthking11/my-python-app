@@ -304,7 +304,10 @@ class PDFRenamerGUI:
                     return new_name
 
         except Exception as e:
-            print(f"处理文件 {file_path} 时出错: {e}")
+            import traceback
+            error_detail = traceback.format_exc() # 获取详细报错堆栈
+            self.result_text.insert(tk.END, f"✗ 报错原因: {str(e)}\n")
+            print(error_detail)
             return None
 
 def main():
