@@ -29,7 +29,7 @@ jobs:
         # -F: 打包成单个 .exe 文件
         # -w: 窗口模式运行（因为你是 tkinter 程序，不需要弹出黑色命令行窗口）
         # --name: 指定生成的 exe 名字
-        pyinstaller -F -w --name "发票自动重命名工具" "通讯费发票重命名.py"
+        pyinstaller -F -w --name "发票自动重命名工具" "通讯费发票重命名v3.py"
 
     - name: 5. 上传生成的 EXE 到 GitHub
       uses: actions/upload-artifact@v4
